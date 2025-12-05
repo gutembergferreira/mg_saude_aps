@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: mg_saude_db
+    environment:
+      POSTGRES_DB: mg_saude_aps
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra/db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.backend
+    container_name: mg_saude_backend
+    env_file:
+      - ../.env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
