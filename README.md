@@ -85,6 +85,25 @@ Endpoints iniciais para dashboards:
 - Métricas iniciais:
   - `/metrics` retorna contadores em texto (requests_total, errors_total), base para futura integração Prometheus/Grafana.
 
+## Seed de dados (demo/PoC)
+
+1. Garanta o banco ativo (docker-compose) e rode as migrações:
+   ```bash
+   alembic upgrade head
+   ```
+2. Execute os seeds:
+   ```bash
+   python -m backend.app.seed.run_all_seeds
+   ```
+3. Dados criados:
+   - Municípios: Recife (2611606), Manaus (1302603), Belo Horizonte (3106200)
+   - Indicadores: C1–C7 (descrições simplificadas)
+   - Usuários (senha `Senha123!`):
+     - admin@mgsaude.local (perfil admin)
+     - gestor.recife@mgsaude.local (perfil gestor_municipal, Recife)
+     - profissional.recife@mgsaude.local (perfil profissional, Recife)
+   - Dados demo: pacientes, cadastros/atendimentos e indicadores para Recife (períodos 2025Q1/Q2) para alimentar indicadores, painéis e geo.
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.
