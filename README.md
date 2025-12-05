@@ -82,7 +82,8 @@ Endpoints iniciais para dashboards:
 - Arquivos estáticos em `backend/app/static` (CSS/JS).
 - Rotas web:
   - `/login` (formulário HTML que chama `/api/v1/auth/login` via fetch, armazena token no `localStorage` e redireciona para `/dashboard`)
-  - `/dashboard` (stub de boas-vindas)
+  - `/dashboard` (stub de boas-vindas com gráfico de indicadores)
+  - `/painel/gestantes` e `/painel/criancas` (páginas HTML que consomem `/api/v1/painel/...` com JWT para listar tabelas e resumos)
   - Dashboard consome `/api/v1/indicadores/{codigo_ibge_municipio}` (JWT obrigatório) para preencher cards e gráfico (Chart.js).
 
 ## Observabilidade

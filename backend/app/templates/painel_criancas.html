@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Painel de Crianças{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h1 class="h4">Painel de Crianças</h1>
+    <p class="text-muted small mb-0">Município padrão: Recife (2611606)</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total de crianças</p>
+                <h2 id="cri-total" class="fw-semibold">--</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Atendimento nos últimos 30 dias</p>
+                <h2 id="cri-30d" class="fw-semibold">--</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Distribuição por faixa</p>
+                <h2 id="cri-faixas" class="fw-semibold">--</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="h5 mb-3">Lista de crianças</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Identificador</th>
+                        <th>Unidade</th>
+                        <th>Equipe</th>
+                        <th>Faixa etária</th>
+                        <th>Qtd atend. 12m</th>
+                        <th>Último atendimento</th>
+                    </tr>
+                </thead>
+                <tbody id="criancas-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

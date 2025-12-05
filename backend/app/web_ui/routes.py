@@ -20,3 +20,13 @@ def login_page(request: Request):
 @router.get("/dashboard")
 def dashboard_page(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
+
+
+@router.get("/painel/gestantes")
+def painel_gestantes_page(request: Request):
+    return templates.TemplateResponse("painel_gestantes.html", {"request": request})
+
+
+@router.get("/painel/criancas")
+def painel_criancas_page(request: Request):
+    return templates.TemplateResponse("painel_criancas.html", {"request": request})
