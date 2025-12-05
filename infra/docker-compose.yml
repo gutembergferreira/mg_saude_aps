@@ -5,13 +5,13 @@ services:
     image: postgres:15
     container_name: mg_saude_db
     environment:
-      POSTGRES_DB: mg_saude_aps
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_NAME:-mg_saude_aps}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
-      - ./infra/db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
 
   backend:
     build:
@@ -22,5 +22,31 @@ services:
       - ../.env
     depends_on:
       - db
+    expose:
+      - "8000"
     ports:
       - "8000:8000"
+
+  etl:
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.etl
+    container_name: mg_saude_etl
+    env_file:
+      - ../.env
+    depends_on:
+      - db
+    command: ["sleep", "infinity"]
+
+  nginx:
+    image: nginx:alpine
+    container_name: mg_saude_nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

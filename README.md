@@ -104,6 +104,20 @@ Endpoints iniciais para dashboards:
      - profissional.recife@mgsaude.local (perfil profissional, Recife)
    - Dados demo: pacientes, cadastros/atendimentos e indicadores para Recife (períodos 2025Q1/Q2) para alimentar indicadores, painéis e geo.
 
+## Ambiente de DEMO (Docker)
+
+1. Copie o `.env.example` para `.env` e ajuste se necessário.
+2. Suba os serviços (Postgres, backend, nginx e etl):
+   ```bash
+   cd infra
+   docker-compose up --build
+   ```
+3. Acesse a API via Nginx: `http://localhost/health` (ou `/api/...`).
+4. (Opcional) rode os seeds dentro do contêiner backend:
+   ```bash
+   docker exec -it mg_saude_backend bash -lc "alembic upgrade head && python -m backend.app.seed.run_all_seeds"
+   ```
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.
