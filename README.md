@@ -31,6 +31,28 @@ Para criar o schema e tabelas do Data Warehouse (schema `dw`) em um banco Postgr
 alembic upgrade head
 ```
 
+## API de Indicadores APS
+
+Endpoint principal:
+
+- `GET /api/v1/indicadores/{codigo_ibge_municipio}`
+  - Query params opcionais: `indicador` (ex.: C1, C2) e `periodo` (ex.: 2025Q1, 2025M03).
+  - Resposta exemplo:
+    ```json
+    [
+      {
+        "municipio": "Recife",
+        "codigo_ibge": "2611606",
+        "indicador": "C1",
+        "nome_indicador": "Nome amigável",
+        "periodo_referencia": "2025Q1",
+        "valor": 0.85,
+        "meta": 0.8,
+        "atingiu_meta": true
+      }
+    ]
+    ```
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.
