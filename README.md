@@ -61,6 +61,15 @@ Endpoints iniciais para dashboards:
 - `GET /api/v1/painel/criancas/{codigo_ibge_municipio}`: lista crianças (faixas 0-1, 1-4) com atendimentos dos últimos 12 meses, filtros opcionais `unidade`, `equipe`, `faixa_etaria`.
 - Uso típico para BI/front: consumir a lista e montar cartões/indicadores (contagem, último atendimento etc.).
 
+## Planejamento (Matriz GUT)
+
+- Tabelas de aplicação `app_problema_gut` e `app_acao_planejada` para registrar problemas priorizados e ações.
+- Endpoints principais:
+  - `POST /api/v1/planejamento/problemas` (criar), `GET /api/v1/planejamento/problemas` (listar por município/código IBGE, filtrar por status)
+  - `GET /api/v1/planejamento/problemas/{id}`, `PATCH /api/v1/planejamento/problemas/{id}`
+  - `POST /api/v1/planejamento/acoes`, `GET /api/v1/planejamento/acoes/{problema_id}`, `PATCH /api/v1/planejamento/acoes/{acao_id}`
+- Score GUT calculado como `gravidade * urgencia * tendencia`.
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.

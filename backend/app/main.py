@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .api.v1 import indicadores, painel_clinico
+from .api.v1 import indicadores, painel_clinico, planejamento
 
 app = FastAPI(
     title="MG Saǧde APS",
@@ -15,3 +15,4 @@ def health_check():
 
 app.include_router(indicadores.router, prefix="/api/v1/indicadores", tags=["indicadores"])
 app.include_router(painel_clinico.router, prefix="/api/v1/painel", tags=["painel_clinico"])
+app.include_router(planejamento.router, prefix="/api/v1/planejamento", tags=["planejamento"])
