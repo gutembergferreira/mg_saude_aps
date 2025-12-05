@@ -1,0 +1,4 @@
+id_atendimento,codigo_ibge_municipio,data_atendimento,codigo_unidade,codigo_equipe,cbo_profissional,hash_identificador_paciente,tipo_atendimento,codigo_proced,quantidade,codigo_territorio
+10,3106200,2024-01-20,1234567,EQP001,2231,hash_paciente_1,Consulta,0301010020,1,TERR01
+11,3106200,2024-01-21,1234567,EQP002,2231,hash_paciente_2,Visita,DOMICILIAR,2,TERR02
+12,2927408,2024-02-05,7654321,EQP003,2235,hash_paciente_3,Consulta,0301010020,1,

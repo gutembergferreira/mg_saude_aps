@@ -30,3 +30,13 @@ Para criar o schema e tabelas do Data Warehouse (schema `dw`) em um banco Postgr
 ```bash
 alembic upgrade head
 ```
+
+## ETL de exemplo (staging → DW)
+
+- CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.
+- Ordem sugerida de execução:
+  1. `python -m etl.jobs.esus_cadastros_load_stg`
+  2. `python -m etl.jobs.esus_atendimentos_load_stg`
+  3. `python -m etl.jobs.dw_load_cadastros`
+  4. `python -m etl.jobs.dw_load_atendimentos`
+- Os jobs usam as credenciais de banco definidas em `etl/config.py` (ou variáveis de ambiente compatíveis).

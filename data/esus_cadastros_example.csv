@@ -1,0 +1,4 @@
+id_cadastro,codigo_ibge_municipio,data_cadastro,sexo,data_nascimento,hash_identificador,codigo_unidade,codigo_equipe,codigo_territorio
+1,3106200,2024-01-15,F,1990-05-10,hash_paciente_1,1234567,EQP001,TERR01
+2,3106200,2024-01-16,M,1985-02-20,hash_paciente_2,1234567,EQP002,TERR02
+3,2927408,2024-02-01,F,2001-09-12,hash_paciente_3,7654321,EQP003,
