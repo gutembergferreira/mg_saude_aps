@@ -53,6 +53,14 @@ Endpoint principal:
     ]
     ```
 
+## API de Painéis Clínicos
+
+Endpoints iniciais para dashboards:
+
+- `GET /api/v1/painel/gestantes/{codigo_ibge_municipio}`: lista gestantes (sexo F) com atendimentos dos últimos 12 meses, filtros opcionais `unidade` (CNES) e `equipe`.
+- `GET /api/v1/painel/criancas/{codigo_ibge_municipio}`: lista crianças (faixas 0-1, 1-4) com atendimentos dos últimos 12 meses, filtros opcionais `unidade`, `equipe`, `faixa_etaria`.
+- Uso típico para BI/front: consumir a lista e montar cartões/indicadores (contagem, último atendimento etc.).
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.
