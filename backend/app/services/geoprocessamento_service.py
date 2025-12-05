@@ -1,6 +1,8 @@
 from datetime import date, timedelta
+from time import perf_counter
 from typing import List
 
+from loguru import logger
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -26,6 +28,7 @@ def _corte_12m() -> date:
 
 
 def listar_unidades_geo(db: Session, codigo_ibge: str) -> List[UnidadeGeoOut]:
+    start = perf_counter()
     corte = _corte_12m()
     sub_cad = (
         db.query(
@@ -69,12 +72,16 @@ def listar_unidades_geo(db: Session, codigo_ibge: str) -> List[UnidadeGeoOut]:
         .order_by(DimUnidadeSaude.id_unidade)
     )
 
-    return [UnidadeGeoOut(**dict(row._mapping)) for row in query.all()]
+    results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info("[PERF] service=listar_unidades_geo municipio={} rows={} duration_ms={:.2f}", codigo_ibge, len(results), duration_ms)
+    return [UnidadeGeoOut(**dict(row._mapping)) for row in results]
 
 
 def listar_indicador_geo_unidade(
     db: Session, codigo_ibge: str, indicador: str, periodo: str
 ) -> List[IndicadorUnidadeGeoOut]:
+    start = perf_counter()
     query = (
         db.query(
             DimUnidadeSaude.id_unidade.label("id_unidade"),
@@ -101,12 +108,23 @@ def listar_indicador_geo_unidade(
         )
         .order_by(DimUnidadeSaude.id_unidade)
     )
-    return [IndicadorUnidadeGeoOut(**dict(row._mapping)) for row in query.all()]
+    results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info(
+        "[PERF] service=listar_indicador_geo_unidade municipio={} indicador={} periodo={} rows={} duration_ms={:.2f}",
+        codigo_ibge,
+        indicador,
+        periodo,
+        len(results),
+        duration_ms,
+    )
+    return [IndicadorUnidadeGeoOut(**dict(row._mapping)) for row in results]
 
 
 def listar_indicador_geo_territorio(
     db: Session, codigo_ibge: str, indicador: str, periodo: str
 ) -> List[IndicadorTerritorioGeoOut]:
+    start = perf_counter()
     query = (
         db.query(
             DimTerritorio.id_territorio.label("id_territorio"),
@@ -133,4 +151,14 @@ def listar_indicador_geo_territorio(
         )
         .order_by(DimTerritorio.id_territorio)
     )
-    return [IndicadorTerritorioGeoOut(**dict(row._mapping)) for row in query.all()]
+    results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info(
+        "[PERF] service=listar_indicador_geo_territorio municipio={} indicador={} periodo={} rows={} duration_ms={:.2f}",
+        codigo_ibge,
+        indicador,
+        periodo,
+        len(results),
+        duration_ms,
+    )
+    return [IndicadorTerritorioGeoOut(**dict(row._mapping)) for row in results]

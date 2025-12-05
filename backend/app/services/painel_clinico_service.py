@@ -1,6 +1,8 @@
 from datetime import date, timedelta
+from time import perf_counter
 from typing import List, Optional
 
+from loguru import logger
 from sqlalchemy import func, or_
 from sqlalchemy.orm import Session
 
@@ -26,6 +28,7 @@ def _data_corte_12m() -> date:
 def listar_gestantes_municipio(
     db: Session, codigo_ibge: str, unidade: Optional[str], equipe: Optional[str]
 ) -> List[GestanteOut]:
+    start = perf_counter()
     corte = _data_corte_12m()
     query = (
         db.query(
@@ -75,12 +78,15 @@ def listar_gestantes_municipio(
     ).order_by(DimPaciente.id_paciente)
 
     results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info("[PERF] service=listar_gestantes municipio={} rows={} duration_ms={:.2f}", codigo_ibge, len(results), duration_ms)
     return [GestanteOut(**dict(row._mapping)) for row in results]
 
 
 def listar_criancas_municipio(
     db: Session, codigo_ibge: str, unidade: Optional[str], equipe: Optional[str], faixa_etaria: Optional[str]
 ) -> List[CriancaOut]:
+    start = perf_counter()
     corte = _data_corte_12m()
     faixas_alvo = {faixa_etaria} if faixa_etaria else CRIANCAS_FAIXAS
 
@@ -126,4 +132,11 @@ def listar_criancas_municipio(
     ).order_by(DimPaciente.id_paciente)
 
     results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info(
+        "[PERF] service=listar_criancas municipio={} rows={} duration_ms={:.2f}",
+        codigo_ibge,
+        len(results),
+        duration_ms,
+    )
     return [CriancaOut(**dict(row._mapping)) for row in results]

@@ -1,5 +1,7 @@
+from time import perf_counter
 from typing import List, Optional
 
+from loguru import logger
 from sqlalchemy.orm import Session
 
 from ..models.dw import DimIndicador, DimMunicipio, FatoIndicadorAPS
@@ -9,6 +11,7 @@ from ..schemas.indicadores import IndicadorAPSOut
 def listar_indicadores(
     db: Session, codigo_ibge: str, indicador: Optional[str] = None, periodo: Optional[str] = None
 ) -> List[IndicadorAPSOut]:
+    start = perf_counter()
     query = (
         db.query(
             DimMunicipio.nome.label("municipio"),
@@ -33,4 +36,6 @@ def listar_indicadores(
 
     query = query.order_by(FatoIndicadorAPS.periodo_referencia, DimIndicador.codigo)
     results = query.all()
+    duration_ms = (perf_counter() - start) * 1000
+    logger.info("[PERF] service=listar_indicadores municipio={} rows={} duration_ms={:.2f}", codigo_ibge, len(results), duration_ms)
     return [IndicadorAPSOut(**dict(row._mapping)) for row in results]
