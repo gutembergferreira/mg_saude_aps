@@ -2,6 +2,7 @@ from time import perf_counter
 from typing import Dict
 
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 from loguru import logger
 from sqlalchemy import text
 from starlette.responses import PlainTextResponse
@@ -10,6 +11,7 @@ from .api.v1 import geoprocessamento, indicadores, painel_clinico, planejamento
 from .core.config import get_settings
 from .core.logging import configure_logging
 from .db.session import SessionLocal
+from .web_ui import routes as web_routes
 
 configure_logging()
 settings = get_settings()
@@ -72,3 +74,5 @@ app.include_router(indicadores.router, prefix="/api/v1/indicadores", tags=["indi
 app.include_router(painel_clinico.router, prefix="/api/v1/painel", tags=["painel_clinico"])
 app.include_router(planejamento.router, prefix="/api/v1/planejamento", tags=["planejamento"])
 app.include_router(geoprocessamento.router, prefix="/api/v1/geo", tags=["geoprocessamento"])
+app.include_router(web_routes.router, tags=["web"])
+app.mount("/static", StaticFiles(directory="backend/app/static"), name="static")

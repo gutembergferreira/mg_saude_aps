@@ -76,6 +76,14 @@ Endpoints iniciais para dashboards:
 - `GET /api/v1/geo/indicador/{codigo_ibge_municipio}?indicador=C1&periodo=2025Q1&nivel=unidade|territorio`: valores de indicadores agregados para mapa/heatmap.
 - Dimensões `dw.dim_unidade_saude` e `dw.dim_territorio` possuem campos opcionais `latitude`/`longitude` usados nas respostas.
 
+## Interface Web (Front-end)
+
+- Templates em `backend/app/templates` (Bootstrap 5).
+- Arquivos estáticos em `backend/app/static` (CSS/JS).
+- Rotas web:
+  - `/login` (formulário HTML que chama `/api/v1/auth/login` via fetch, armazena token no `localStorage` e redireciona para `/dashboard`)
+  - `/dashboard` (stub de boas-vindas)
+
 ## Observabilidade
 
 - Logging padronizado com Loguru (formato com timestamp, nível e módulo), middleware de requisições com tempo de resposta.
