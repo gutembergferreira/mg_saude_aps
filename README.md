@@ -70,6 +70,12 @@ Endpoints iniciais para dashboards:
   - `POST /api/v1/planejamento/acoes`, `GET /api/v1/planejamento/acoes/{problema_id}`, `PATCH /api/v1/planejamento/acoes/{acao_id}`
 - Score GUT calculado como `gravidade * urgencia * tendencia`.
 
+## Geoprocessamento
+
+- `GET /api/v1/geo/unidades/{codigo_ibge_municipio}`: unidades de saúde com latitude/longitude e contagens (cadastros e atendimentos nos últimos 12 meses).
+- `GET /api/v1/geo/indicador/{codigo_ibge_municipio}?indicador=C1&periodo=2025Q1&nivel=unidade|territorio`: valores de indicadores agregados para mapa/heatmap.
+- Dimensões `dw.dim_unidade_saude` e `dw.dim_territorio` possuem campos opcionais `latitude`/`longitude` usados nas respostas.
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.

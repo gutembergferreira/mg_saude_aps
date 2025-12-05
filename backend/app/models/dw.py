@@ -53,6 +53,8 @@ class DimUnidadeSaude(Base):
     nome = Column(String(150), nullable=False)
     tipo_unidade = Column(String(50))
     id_municipio = Column(Integer, ForeignKey("dw.dim_municipio.id_municipio"), nullable=False)
+    latitude = Column(Numeric(10, 6))
+    longitude = Column(Numeric(10, 6))
 
     municipio = relationship("DimMunicipio", back_populates="unidades")
     equipes = relationship("DimEquipe", back_populates="unidade")
@@ -99,6 +101,8 @@ class DimTerritorio(Base):
     codigo_territorio = Column(String(50), nullable=False)
     descricao = Column(String(150))
     id_equipe = Column(Integer, ForeignKey("dw.dim_equipe.id_equipe"))
+    latitude = Column(Numeric(10, 6))
+    longitude = Column(Numeric(10, 6))
 
     equipe = relationship("DimEquipe", back_populates="territorios")
     cadastros = relationship("FatoCadastroAPS", back_populates="territorio")
