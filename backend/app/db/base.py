@@ -2,5 +2,5 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
-# No futuro:
-# from ..models import dw, app  # noqa
+# Importa os modelos para registro no metadata do SQLAlchemy/Alembic
+from ..models import dw  # noqa: F401,E402

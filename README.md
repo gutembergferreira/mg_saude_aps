@@ -22,3 +22,11 @@ Plataforma de gestão para Atenção Primária à Saúde (APS), focada em:
 - `infra/` – arquivos de infraestrutura (Docker, Nginx, etc.)
 
 Este repositório foi preparado para desenvolvimento assistido por IA (Codex) com GitHub.
+
+## Migrações do DW
+
+Para criar o schema e tabelas do Data Warehouse (schema `dw`) em um banco PostgreSQL, configure as variáveis de ambiente de conexão (ver `backend/app/core/config.py`) e execute a partir da raiz do projeto:
+
+```bash
+alembic upgrade head
+```
