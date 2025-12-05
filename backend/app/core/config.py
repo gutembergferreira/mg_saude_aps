@@ -7,6 +7,9 @@ class Settings(BaseSettings):
     APP_NAME: str = "MG Saude APS"
     ENV: str = "dev"
     LOG_LEVEL: str = "INFO"
+    JWT_SECRET_KEY: str = "changeme"
+    JWT_ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432

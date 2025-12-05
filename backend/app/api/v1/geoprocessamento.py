@@ -3,7 +3,9 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
+from ...core.security import ensure_user_can_access_municipio, get_current_user
 from ...db.session import get_db
+from ...models.app import Usuario
 from ...schemas.geoprocessamento import (
     IndicadorTerritorioGeoOut,
     IndicadorUnidadeGeoOut,

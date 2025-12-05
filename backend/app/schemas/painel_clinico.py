@@ -1,7 +1,9 @@
 from datetime import date
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+
+from ..core.privacy import mask_hash_identificador
 
 
 class GestanteOut(BaseModel):
@@ -20,6 +22,10 @@ class GestanteOut(BaseModel):
     class Config:
         orm_mode = True
 
+    @validator("hash_identificador", pre=False, always=False)
+    def mask_hash(cls, v):
+        return mask_hash_identificador(v) if v else v
+
 
 class CriancaOut(BaseModel):
     id_paciente: int
@@ -36,3 +42,7 @@ class CriancaOut(BaseModel):
 
     class Config:
         orm_mode = True
+
+    @validator("hash_identificador", pre=False, always=False)
+    def mask_hash(cls, v):
+        return mask_hash_identificador(v) if v else v
