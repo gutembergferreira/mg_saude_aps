@@ -1,12 +1,12 @@
-import os
 from functools import lru_cache
 
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    APP_NAME: str = "MG Saúde APS"
+    APP_NAME: str = "MG Saude APS"
     ENV: str = "dev"
+    LOG_LEVEL: str = "INFO"
 
     DB_HOST: str = "localhost"
     DB_PORT: int = 5432

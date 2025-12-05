@@ -2,6 +2,9 @@ from datetime import date
 from typing import Optional, Tuple
 
 from etl.utils.db import get_connection
+from etl.utils.logging import configure_etl_logging, get_logger
+
+logger = get_logger()
 
 
 def _ensure_tempo(cur, data_ref: date) -> int:
@@ -191,6 +194,7 @@ def _resolve_ids(cur, stg_row: Tuple) -> dict:
 
 
 def load_dw_from_atendimentos():
+    logger.info("[ETL] job=dw_load_atendimentos start")
     conn = get_connection()
     cur = conn.cursor()
     cur.execute(
@@ -212,7 +216,7 @@ def load_dw_from_atendimentos():
     )
     rows = cur.fetchall()
     if not rows:
-        print("Nenhuma linha encontrada em stg.stg_esus_atendimentos")
+        logger.warning("[ETL] job=dw_load_atendimentos no_rows")
         cur.close()
         conn.close()
         return 0
@@ -247,9 +251,10 @@ def load_dw_from_atendimentos():
     conn.commit()
     cur.close()
     conn.close()
-    print(f"{inserted} registros inseridos em dw.fato_atendimento_aps (dimensões resolvidas).")
+    logger.info("[ETL] job=dw_load_atendimentos records_inserted={}", inserted)
     return inserted
 
 
 if __name__ == "__main__":
+    configure_etl_logging()
     load_dw_from_atendimentos()

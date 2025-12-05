@@ -4,6 +4,9 @@ from pathlib import Path
 from typing import List, Tuple
 
 from etl.utils.db import get_connection
+from etl.utils.logging import configure_etl_logging, get_logger
+
+logger = get_logger()
 
 
 def _parse_date(value: str) -> date:
@@ -31,9 +34,10 @@ def _load_rows(csv_path: Path) -> List[Tuple]:
 
 
 def load_cadastros_to_stg(csv_path: Path) -> int:
+    logger.info("[ETL] job=esus_cadastros_load_stg start path={}", csv_path)
     rows = _load_rows(csv_path)
     if not rows:
-        print(f"Nenhuma linha encontrada em {csv_path}")
+        logger.warning("[ETL] job=esus_cadastros_load_stg no_rows path={}", csv_path)
         return 0
 
     conn = get_connection()
@@ -51,10 +55,11 @@ def load_cadastros_to_stg(csv_path: Path) -> int:
     conn.commit()
     cur.close()
     conn.close()
-    print(f"{len(rows)} cadastros inseridos na stg.stg_esus_cadastros")
+    logger.info("[ETL] job=esus_cadastros_load_stg records_inserted={}", len(rows))
     return len(rows)
 
 
 if __name__ == "__main__":
+    configure_etl_logging()
     default_path = Path(__file__).resolve().parents[2] / "data" / "esus_cadastros_example.csv"
     load_cadastros_to_stg(default_path)

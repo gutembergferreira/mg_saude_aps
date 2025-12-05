@@ -76,6 +76,15 @@ Endpoints iniciais para dashboards:
 - `GET /api/v1/geo/indicador/{codigo_ibge_municipio}?indicador=C1&periodo=2025Q1&nivel=unidade|territorio`: valores de indicadores agregados para mapa/heatmap.
 - Dimensões `dw.dim_unidade_saude` e `dw.dim_territorio` possuem campos opcionais `latitude`/`longitude` usados nas respostas.
 
+## Observabilidade
+
+- Logging padronizado com Loguru (formato com timestamp, nível e módulo), middleware de requisições com tempo de resposta.
+- Health checks:
+  - `/health` simples.
+  - `/health/details` verifica conectividade com o banco e retorna latência.
+- Métricas iniciais:
+  - `/metrics` retorna contadores em texto (requests_total, errors_total), base para futura integração Prometheus/Grafana.
+
 ## ETL de exemplo (staging → DW)
 
 - CSVs fictícios usados pelos jobs estão em `data/esus_cadastros_example.csv` e `data/esus_atendimentos_example.csv`.

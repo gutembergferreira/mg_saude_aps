@@ -1,13 +1,18 @@
 from datetime import date, timedelta
 
 from etl.utils.db import get_connection
+from etl.utils.logging import configure_etl_logging, get_logger
+
+logger = get_logger()
 
 
 def popular_dim_tempo(data_inicio: date, data_fim: date):
+    logger.info("[ETL] job=dw_load_dim_tempo start data_inicio={} data_fim={}", data_inicio, data_fim)
     conn = get_connection()
     cur = conn.cursor()
 
     data_atual = data_inicio
+    total = 0
     while data_atual <= data_fim:
         ano = data_atual.year
         mes = data_atual.month
@@ -39,13 +44,15 @@ def popular_dim_tempo(data_inicio: date, data_fim: date):
                 eh_final_semana,
             ),
         )
-
+        total += 1
         data_atual += timedelta(days=1)
 
     conn.commit()
     cur.close()
     conn.close()
+    logger.info("[ETL] job=dw_load_dim_tempo inserted={}", total)
 
 
 if __name__ == "__main__":
+    configure_etl_logging()
     popular_dim_tempo(date(2015, 1, 1), date(2030, 12, 31))
